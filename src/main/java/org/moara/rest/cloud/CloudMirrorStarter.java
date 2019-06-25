@@ -82,8 +82,9 @@ public class CloudMirrorStarter {
 					
 				Config.logConfigLoad();
 			}
-			
-			
+
+
+			//noinspection AnonymousHasLambdaAlternative
 			new Thread(){
 				@Override
 				public void run(){
@@ -111,6 +112,7 @@ public class CloudMirrorStarter {
 						List<CloudMirrorEngineInitializer> initializerList = new ArrayList<>(); 
 						for (Class<?> cl : ref.getSubTypesOf(CloudMirrorEngineInitializer.class)) {
 							try{
+								//noinspection deprecation
 								CloudMirrorEngineInitializer initializer = (CloudMirrorEngineInitializer)cl.newInstance();
 								initializerList.add(initializer);
 							}catch(Exception e){logger.error(ExceptionUtil.getStackTrace(e));}
@@ -119,9 +121,9 @@ public class CloudMirrorStarter {
 						if(initializerList.size() == 0){
 							return;
 						}
-						
-						
-						
+
+
+						//noinspection ToArrayCallWithZeroLengthArrayArgument
 						CloudMirrorEngineInitializer [] initializerArray = initializerList.toArray(new CloudMirrorEngineInitializer[initializerList.size()]);
 						
 						int [] numArray = new int[initializerArray.length];
@@ -148,6 +150,7 @@ public class CloudMirrorStarter {
 						
 						QuickSortArray<CloudMirrorEngineInitializer> sort = new QuickSortArray<>(initializerArray);
 						sort.sortAsc(numArray);
+						//noinspection ForLoopReplaceableByForEach
 						for(int i=0 ; i<initializerArray.length ; i++){
 							try{
 								initializerArray[i].init();

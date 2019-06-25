@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 public class EngineSpringBootInit {
     @Bean
     public static BeanFactoryPostProcessor beanFactoryPostProcessor() {
+        //noinspection Convert2Lambda
         return new BeanFactoryPostProcessor() {
 
             @Override
