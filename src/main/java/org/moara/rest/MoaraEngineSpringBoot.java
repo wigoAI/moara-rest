@@ -1,22 +1,16 @@
 
 package org.moara.rest;
 
-import java.util.HashMap;
-
 import org.moara.common.config.Config;
 import org.moara.common.config.ConfigSet;
 import org.moara.common.util.ExceptionUtil;
 import org.moara.engine.MoaraEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.Bean;
+
+import java.util.HashMap;
 /** 
  * <pre>
  *  파 일 명 : MoaraEngineSpringBoot.java

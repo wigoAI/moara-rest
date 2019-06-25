@@ -1,20 +1,12 @@
 
 package org.moara.rest.api;
 
-import java.util.HashMap;
-
 import org.moara.Moara;
 import org.moara.common.config.Config;
-import org.moara.rest.MoaraEngineSpringBoot;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
+
+import java.util.HashMap;
 /**
  * <pre>
  *  파 일 명 : MoaraRestApiServer.java
@@ -28,7 +20,7 @@ import org.springframework.context.annotation.Bean;
  * @author Copyrights 2018 by ㈜모아라. All right reserved.
  */
 @SpringBootApplication(scanBasePackages = {"org.moara.rest"})
-public class MoaraRestApiServer extends  SpringBootServletInitializer {
+public class MoaraRestApiServer {
 
 
 	public static void main(String[] args) {
