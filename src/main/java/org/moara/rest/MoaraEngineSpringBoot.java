@@ -29,25 +29,12 @@ import org.springframework.context.annotation.Bean;
  * </pre>
  * @author Copyrights 2018 by ㈜모아라. All right reserved.
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"org.moara.rest"})
 public class MoaraEngineSpringBoot {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MoaraEngineSpringBoot.class); 
 	
-	@Bean
-	public static BeanFactoryPostProcessor beanFactoryPostProcessor() {
-	    return new BeanFactoryPostProcessor() {
 
-	        @Override
-	        public void postProcessBeanFactory(
-	                ConfigurableListableBeanFactory beanFactory) throws BeansException {
-	            BeanDefinition bean = beanFactory.getBeanDefinition(
-	                    DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
-
-	            bean.getPropertyValues().add("loadOnStartup", 1);
-	        }
-	    };
-	}
 	public static void main(String[] args) {
 		if(args == null){
 			logger.error("args is null, engine code in");

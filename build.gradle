@@ -75,14 +75,14 @@ task copyToLib(type: Copy) {
 
 dependencies {
     // This dependency is found on compile classpath of this component and consumers.
-    implementation 'com.google.guava:guava:27.0.1-jre'
+    //implementation 'com.google.guava:guava:27.0.1-jre'
     
     //reflections
-    implementation 'org.reflections:reflections:0.9.10'
-	implementation 'dom4j:dom4j:1.6.1'
+    //implementation 'org.reflections:reflections:0.9.10'
+	//implementation 'dom4j:dom4j:1.6.1'
 
     // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
+    //testImplementation 'junit:junit:4.12'
     
     //spring boot
     implementation 'org.springframework.boot:spring-boot-dependencies:2.1.6.RELEASE'

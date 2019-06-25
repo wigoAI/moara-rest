@@ -1,15 +1,3 @@
-/** 
- * <pre>
- *  파 일 명 : CloudMirrorStarter.java
- *  설    명 : moara를 cloud에서 mirror 형태로 사용할 경우의 시작 클래스
- *  작 성 자 : macle(김용수)
- *  작 성 일 : 2018.08
- *  버    전 : 1.0
- *  수정이력 : 
- *  기타사항 :
- * </pre>
- * @author Copyrights 2018 by ㈜모아라. All right reserved.
- */
 
 package org.moara.rest.cloud;
 
@@ -47,20 +35,20 @@ import org.springframework.context.annotation.Bean;
 public class CloudMirrorStarter {
 	private static final Logger logger = LoggerFactory.getLogger(CloudMirrorStarter.class); 
 	
-	@Bean
-	public static BeanFactoryPostProcessor beanFactoryPostProcessor() {
-	    return new BeanFactoryPostProcessor() {
-
-	        @Override
-	        public void postProcessBeanFactory(
-	                ConfigurableListableBeanFactory beanFactory) throws BeansException {
-	            BeanDefinition bean = beanFactory.getBeanDefinition(
-	                    DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
-
-	            bean.getPropertyValues().add("loadOnStartup", 1);
-	        }
-	    };
-	}
+//	@Bean
+//	public static BeanFactoryPostProcessor beanFactoryPostProcessor() {
+//	    return new BeanFactoryPostProcessor() {
+//
+//	        @Override
+//	        public void postProcessBeanFactory(
+//	                ConfigurableListableBeanFactory beanFactory) throws BeansException {
+//	            BeanDefinition bean = beanFactory.getBeanDefinition(
+//	                    DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
+//
+//	            bean.getPropertyValues().add("loadOnStartup", 1);
+//	        }
+//	    };
+//	}
 	public static void main(String[] args) {
 		if(args == null || args.length < 1){
 			logger.error("args is null, config path set");
