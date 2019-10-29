@@ -26,7 +26,7 @@ public class MoaraRestApiServer {
 	public static void main(String[] args) {
 		Moara.init();
 
-//		System.out.println("Config.getLogConfigPath() " + Config.getLogConfigPath());
+//		System.out.println("Config.getLogConfigPath() " + Config.getLoggConfigPath());
 		HashMap<String, Object> props = new HashMap<>();
 		props.put("server.port", 8050);
 		props.put("logging.config", Config.getLogConfigPath());

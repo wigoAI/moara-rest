@@ -69,7 +69,7 @@ public class MoaraEngineSpringBoot {
 					
 					HashMap<String, Object> props = new HashMap<>();
 					props.put("server.port", restPort);
-					
+					props.put("logging.config" , ConfigSet.getLogbackConfigPath());
 					
 					
 //					props.put("logging.config", new File(Config.getLogConfigPath()).getParentFile().getAbsolutePath()+"/logback_spring.xml");
