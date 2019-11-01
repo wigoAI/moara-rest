@@ -74,22 +74,20 @@ task copyToLib(type: Copy) {
 }
 
 dependencies {
-    // This dependency is found on compile classpath of this component and consumers.
-    //implementation 'com.google.guava:guava:27.0.1-jre'
-    
-    //reflections
-    //implementation 'org.reflections:reflections:0.9.10'
-	//implementation 'dom4j:dom4j:1.6.1'
 
-    // Use JUnit test framework
-    //testImplementation 'junit:junit:4.12'
-    
     //spring boot
-    implementation 'org.springframework.boot:spring-boot-dependencies:2.1.6.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    
-//    testCompile("junit:junit")
-    
-    implementation fileTree (dir: 'lib', include: ['/**/*.jar'])
+    implementation 'org.springframework.boot:spring-boot-dependencies:2.2.0.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.0.RELEASE'
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.0.RELEASE'
+	//oracle
+	compile group: 'com.oracle.ojdbc', name: 'ojdbc8', version: '19.3.0.0'
+	//log
+	implementation 'ch.qos.logback:logback-core:1.1.3'
+	implementation 'ch.qos.logback:logback-classic:1.1.3'
+	implementation 'ch.qos.logback:logback-access:1.1.3'
+
+
+	implementation 'org.json:json:20190722'
+
+    implementation fileTree (dir: 'dependencies', include: ['/**/*.jar'])
 }

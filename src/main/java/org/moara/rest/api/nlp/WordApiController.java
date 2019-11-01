@@ -5,8 +5,15 @@
 package org.moara.rest.api.nlp;
 
 import org.json.JSONObject;
+import org.moara.ara.datamining.textmining.TextMining;
+import org.moara.ara.datamining.textmining.api.document.DocumentStandardKey;
+import org.moara.ara.datamining.textmining.api.sentence.Sentences;
+import org.moara.ara.datamining.textmining.api.util.ApiInOutUtil;
 import org.moara.ara.datamining.textmining.api.word.WordExtractApi;
+import org.moara.ara.datamining.textmining.api.word.WordExtracts;
+import org.moara.ara.datamining.textmining.document.Document;
 import org.moara.common.util.ExceptionUtil;
+import org.moara.open.api.ApiMessageCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -55,6 +62,37 @@ public class WordApiController {
 			return "";
 		}
 	}
+
+	@RequestMapping(value = "/document/words" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public String documentWords(String jsonValue){
+
+        try {
+            return WordExtracts.extractDocumentWord(new JSONObject(jsonValue)).toString();
+        }catch(Exception e){
+            logger.error(ExceptionUtil.getStackTrace(e));
+            return ApiMessageCode.FAIL;
+        }
+    }
+
+    @RequestMapping(value = "/document/sentences" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+    public String documentSentences(String jsonValue){
+        try {
+            JSONObject obj = new JSONObject(jsonValue);
+            Document document = ApiInOutUtil.makeDocument(obj);
+            TextMining.mining(document);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(DocumentStandardKey.ANALYSIS_CONTENTS.key(), document.getAnalysisContents());
+            jsonObject.put(DocumentStandardKey.SENTENCE_ARRAY.key(), Sentences.extractSentence(document, obj));
+
+            return jsonObject.toString();
+        }catch(Exception e){
+            logger.error(ExceptionUtil.getStackTrace(e));
+            return ApiMessageCode.FAIL;
+        }
+
+    }
+
 }
 
 
