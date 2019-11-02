@@ -27,7 +27,7 @@ import java.util.HashMap;
  */
 
 //다른서비스들보다는 빨리실행
-@Priority(seq = Integer.MAX_VALUE-10)
+@Priority(seq = Integer.MAX_VALUE-100)
 @SpringBootApplication(scanBasePackages = {"org.moara.rest"})
 public class MoaraEngineSpringBoot implements MoaraInitializer {
 	

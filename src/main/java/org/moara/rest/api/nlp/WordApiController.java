@@ -64,7 +64,7 @@ public class WordApiController {
 	}
 
 	@RequestMapping(value = "/document/words" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public String documentWords(String jsonValue){
+	public String documentWords(@RequestBody String jsonValue){
 
         try {
             return WordExtracts.extractDocumentWord(new JSONObject(jsonValue)).toString();
@@ -75,7 +75,7 @@ public class WordApiController {
     }
 
     @RequestMapping(value = "/document/sentences" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-    public String documentSentences(String jsonValue){
+    public String documentSentences(@RequestBody String jsonValue){
         try {
             JSONObject obj = new JSONObject(jsonValue);
             Document document = ApiInOutUtil.makeDocument(obj);
