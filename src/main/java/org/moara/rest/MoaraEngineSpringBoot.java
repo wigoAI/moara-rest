@@ -56,8 +56,9 @@ public class MoaraEngineSpringBoot implements MoaraInitializer {
 
 				HashMap<String, Object> props = new HashMap<>();
 				props.put("server.port", restPort);
-				props.put("logging.config" , ConfigSet.getLogbackConfigPath());
-
+				if(ConfigSet.getLogbackConfigPath() != null) {
+					props.put("logging.config", ConfigSet.getLogbackConfigPath());
+				}
 
 //					props.put("logging.config", new File(Config.getLogConfigPath()).getParentFile().getAbsolutePath()+"/logback_spring.xml");
 
