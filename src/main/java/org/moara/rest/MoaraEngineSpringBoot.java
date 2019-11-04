@@ -3,7 +3,6 @@ package org.moara.rest;
 
 import org.moara.MoaraInitializer;
 import org.moara.common.annotation.Priority;
-import org.moara.common.config.Config;
 import org.moara.common.config.ConfigSet;
 import org.moara.common.util.ExceptionUtil;
 import org.moara.engine.MoaraEngine;
