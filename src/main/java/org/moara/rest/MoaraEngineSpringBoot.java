@@ -70,7 +70,6 @@ public class MoaraEngineSpringBoot implements MoaraInitializer {
 						.properties(props)
 						.run(springbootArgs);
 
-				Config.logConfigLoad();
 			}
 		}
 	}
