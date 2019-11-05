@@ -58,7 +58,7 @@ targetCompatibility = 1.8
 
 eclipse {
 	project {
-		name = 'moara_engine_spring_boot'
+		name = 'moara-rest'
 	}
 	
 	classpath {
