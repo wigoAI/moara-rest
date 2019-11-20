@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * <pre>
  *  파 일 명 : SimilarityApiController.java
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * </pre>
  * @author Copyrights 2019 by ㈜모아라. All right reserved.
  */
+@RestController
 public class SimilarityApiController {
     private static final Logger logger   = LoggerFactory.getLogger(SimilarityApiController.class);
 
