@@ -36,7 +36,7 @@ import java.util.List;
  * </pre>
  * @author Copyrights 2018 by ㈜모아라. All right reserved.
  */
-@SpringBootApplication(scanBasePackages = {"org.moara.rest"})
+@SpringBootApplication(scanBasePackages = {"org.moara"})
 public class CloudMirrorStarter {
 	private static final Logger logger = LoggerFactory.getLogger(CloudMirrorStarter.class); 
 	

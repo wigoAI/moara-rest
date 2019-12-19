@@ -19,7 +19,7 @@ import java.util.HashMap;
  * </pre>
  * @author Copyrights 2018 by ㈜모아라. All right reserved.
  */
-@SpringBootApplication(scanBasePackages = {"org.moara.rest"})
+@SpringBootApplication(scanBasePackages = {"org.moara"})
 public class MoaraRestApiServer {
 
 
