@@ -97,25 +97,12 @@ public class MoaraEngineSpringBoot implements MoaraInitializer {
 
 				ConfigSet.setPath(args[1].substring(0, index));
 			}
-			//서버 인스턴스 생성
-			MoaraEngine moaraEngine = MoaraEngine.newInstance(args[0]);
 			start();
 
 		}catch(Exception e){
 			logger.error(ExceptionUtil.getStackTrace(e));
 		}
-		
-//		HashMap<String, Object> props = new HashMap<>();
-//		props.put("server.port", 8080);
-//		
-//		new SpringApplicationBuilder()
-//	    .sources(MoaraEngineSpringBoot.class)                
-//	    .properties(props)
-//	    .run(args);
-//	
-//		
-//		Moara.initMeta();
-//		SpringApplication.run(MoaraEngineSpringBoot.class, args);
+
 	}
 
 
