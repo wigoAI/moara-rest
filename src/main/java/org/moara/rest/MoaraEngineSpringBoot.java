@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 //다른서비스들보다는 빨리실행
 @Priority(seq = Integer.MAX_VALUE-100)
-@SpringBootApplication(scanBasePackages = {"org.moara"})
+@SpringBootApplication(scanBasePackages = {"org.moara", "com.wigoai"})
 public class MoaraEngineSpringBoot implements MoaraInitializer {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MoaraEngineSpringBoot.class);
@@ -42,7 +42,7 @@ public class MoaraEngineSpringBoot implements MoaraInitializer {
 
 		String restApiUseFlag = moaraEngine.getConfig("rest.api.use.flag");
 
-
+		logger.debug("restApiUseFlag " + restApiUseFlag);
 
 		if(restApiUseFlag != null) {
 			restApiUseFlag = restApiUseFlag.trim().toUpperCase();
@@ -69,7 +69,11 @@ public class MoaraEngineSpringBoot implements MoaraInitializer {
 						.properties(props)
 						.run(springbootArgs);
 
+
+				logger.debug("spring boot start");
+
 			}
+
 		}
 	}
 
