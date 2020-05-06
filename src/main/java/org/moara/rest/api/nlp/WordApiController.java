@@ -90,8 +90,30 @@ public class WordApiController {
             logger.error(ExceptionUtil.getStackTrace(e));
             return ApiMessageCode.FAIL;
         }
-
     }
+
+	@RequestMapping(value = "/document/word/syllable" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public String documentWordSyllable(@RequestBody String jsonValue){
+
+		try {
+			return WordExtracts.extractDocumentWordSyllable(new JSONObject(jsonValue));
+		}catch(Exception e){
+			logger.error(ExceptionUtil.getStackTrace(e));
+			return ApiMessageCode.FAIL;
+		}
+	}
+
+	@RequestMapping(value = "/document/word/simple" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public String documentWordSimple(@RequestBody String jsonValue){
+
+		try {
+			return WordExtracts.extractDocumentWordSimple(new JSONObject(jsonValue));
+		}catch(Exception e){
+			logger.error(ExceptionUtil.getStackTrace(e));
+			return ApiMessageCode.FAIL;
+		}
+	}
+
 
 }
 
