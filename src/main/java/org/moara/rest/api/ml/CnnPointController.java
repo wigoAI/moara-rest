@@ -29,7 +29,7 @@ public class CnnPointController {
 	private static final Logger logger   = LoggerFactory.getLogger(CnnPointController.class);
 	
 	@RequestMapping(value = "/ml/cnn/P0001" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public String getCnnPontValue(@RequestBody String jsonObjectValue) {
+	public String getCnnPointValue(@RequestBody String jsonObjectValue) {
 		try {
 			
 			
@@ -43,7 +43,7 @@ public class CnnPointController {
 	
 	
 	@RequestMapping(value = "/ml/cnn/P0002" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public String getCnnPont0002(@RequestBody String jsonObjectValue) {
+	public String getCnnPoint0002(@RequestBody String jsonObjectValue) {
 		return SttCnnPoint.getAllPointValue(jsonObjectValue);
 		
 	}
