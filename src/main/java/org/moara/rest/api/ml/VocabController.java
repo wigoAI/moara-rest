@@ -1,6 +1,8 @@
 package org.moara.rest.api.ml;
 
+import org.json.JSONObject;
 import org.moara.ara.datamining.textmining.dictionary.word.embedding.vocabulary.KoreaVocabWords;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class VocabController {
-    @RequestMapping(value = "/ml/vocab/tokenize" , method = RequestMethod.POST)
-    public String documentWordSimple(@RequestBody String text){
-        return KoreaVocabWords.getVocabWords(text);
+    @RequestMapping(value = "/ml/vocab/tokenize" , method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    public String documentWordSimple(@RequestBody String jsonValue){
+        return KoreaVocabWords.getVocabWords(new JSONObject(jsonValue).getString("text"));
     }
 }
