@@ -32,8 +32,11 @@ public class VocabController {
     private static final Logger logger = LoggerFactory.getLogger(VocabController.class);
 
     @RequestMapping(value = "/ml/vocab/tokenize" , method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String tokenize(@RequestBody String jsonValue){
+    public String tokenize(@RequestBody(required = false) String jsonValue){
 
+        if(jsonValue == null){
+            return "[]";
+        }
 
         if("".equals(jsonValue.trim())){
             return "[]";
@@ -45,5 +48,7 @@ public class VocabController {
             return "[]";
         }
     }
+
+
 
 }
