@@ -31,11 +31,11 @@ public class VocabController {
 
     private static final Logger logger = LoggerFactory.getLogger(VocabController.class);
 
-    @RequestMapping(value = "/ml/vocab/tokenize" , method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/ml/vocab/tokenize" , method = RequestMethod.POST, produces= MediaType.ALL_VALUE)
     public String documentWordSimple(@RequestBody String jsonValue){
 
 
-        if("".equals(jsonValue)){
+        if("".equals(jsonValue.trim())){
             return "[]";
         }
         try {
