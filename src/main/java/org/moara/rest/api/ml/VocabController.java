@@ -2,6 +2,9 @@ package org.moara.rest.api.ml;
 
 import org.json.JSONObject;
 import org.moara.ara.datamining.textmining.dictionary.word.embedding.vocabulary.KoreaVocabWords;
+import org.moara.common.util.ExceptionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +27,23 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class VocabController {
+
+
+    private static final Logger logger = LoggerFactory.getLogger(VocabController.class);
+
     @RequestMapping(value = "/ml/vocab/tokenize" , method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
     public String documentWordSimple(@RequestBody String jsonValue){
-        return KoreaVocabWords.getVocabWords(new JSONObject(jsonValue).getString("text"));
+
+
+        if("".equals(jsonValue)){
+            return "[]";
+        }
+        try {
+            return KoreaVocabWords.getVocabWords(new JSONObject(jsonValue).getString("text"));
+        }catch(Exception e){
+            logger.error(ExceptionUtil.getStackTrace(e));
+            return "[]";
+        }
     }
+
 }
