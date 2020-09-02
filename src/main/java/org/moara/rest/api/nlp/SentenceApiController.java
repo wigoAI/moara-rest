@@ -15,8 +15,14 @@
  */
 package org.moara.rest.api.nlp;
 
-import org.moara.ara.datamining.textmining.api.sentence.SentenceApi;
+import org.json.JSONObject;
+import org.moara.ara.datamining.textmining.TextMining;
+import org.moara.ara.datamining.textmining.api.document.DocumentStandardKey;
+import org.moara.ara.datamining.textmining.api.sentence.Sentences;
+import org.moara.ara.datamining.textmining.api.util.ApiInOutUtil;
+import org.moara.ara.datamining.textmining.document.Document;
 import org.moara.common.util.ExceptionUtil;
+import org.moara.open.api.ApiMessageCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -33,16 +39,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class SentenceApiController {
 
 	private static final Logger logger   = LoggerFactory.getLogger(SentenceApiController.class);
-	
-	
-	@RequestMapping(value = "/sentence/extract" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public String extract(@RequestBody String documentJson) {
+
+
+	@RequestMapping(value = "/document/sentences" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+	public String documentSentences(@RequestBody String jsonValue){
 		try {
-			return SentenceApi.extractSetence(documentJson);
-		}catch(Exception e) {
+			JSONObject obj = new JSONObject(jsonValue);
+			Document document = ApiInOutUtil.makeDocument(obj);
+			TextMining.mining(document);
+
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put(DocumentStandardKey.ANALYSIS_CONTENTS.key(), document.getAnalysisContents());
+			jsonObject.put(DocumentStandardKey.SENTENCE_ARRAY.key(), Sentences.extractSentence(document, obj));
+
+			return jsonObject.toString();
+		}catch(Exception e){
 			logger.error(ExceptionUtil.getStackTrace(e));
-			return "";
+			return ApiMessageCode.FAIL;
 		}
 	}
+
 	
 }

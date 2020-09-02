@@ -16,13 +16,7 @@
 package org.moara.rest.api.nlp;
 
 import org.json.JSONObject;
-import org.moara.ara.datamining.textmining.TextMining;
-import org.moara.ara.datamining.textmining.api.document.DocumentStandardKey;
-import org.moara.ara.datamining.textmining.api.sentence.Sentences;
-import org.moara.ara.datamining.textmining.api.util.ApiInOutUtil;
-import org.moara.ara.datamining.textmining.api.word.WordExtractApi;
 import org.moara.ara.datamining.textmining.api.word.WordExtracts;
-import org.moara.ara.datamining.textmining.document.Document;
 import org.moara.common.util.ExceptionUtil;
 import org.moara.open.api.ApiMessageCode;
 import org.slf4j.Logger;
@@ -39,31 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WordApiController {
 	private static final Logger logger   = LoggerFactory.getLogger(WordApiController.class);
-	
-	
-	@RequestMapping(value = "/word/extract" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public String extract(@RequestBody String jsonValue) {
-		try {
-			JSONObject obj = new JSONObject(jsonValue);
-			WordExtractApi wordExtractApi = new WordExtractApi(obj);
-			
-			return wordExtractApi.extract();
-		}catch(Exception e) {
-			logger.error(ExceptionUtil.getStackTrace(e));
-			return "";
-		}
-	}
 
-	@RequestMapping(value = "/document/word/extract" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-	public String extractDocumentWord(@RequestBody String jsonValue) {
-		try {
-			JSONObject obj = new JSONObject(jsonValue);
-			return WordExtractApi.extractDocumentWord(obj);
-		}catch(Exception e) {
-			logger.error(ExceptionUtil.getStackTrace(e));
-			return "";
-		}
-	}
+
 
 	@RequestMapping(value = "/document/words" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public String documentWords(@RequestBody String jsonValue){
@@ -76,23 +47,6 @@ public class WordApiController {
         }
     }
 
-    @RequestMapping(value = "/document/sentences" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
-    public String documentSentences(@RequestBody String jsonValue){
-        try {
-            JSONObject obj = new JSONObject(jsonValue);
-            Document document = ApiInOutUtil.makeDocument(obj);
-            TextMining.mining(document);
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(DocumentStandardKey.ANALYSIS_CONTENTS.key(), document.getAnalysisContents());
-            jsonObject.put(DocumentStandardKey.SENTENCE_ARRAY.key(), Sentences.extractSentence(document, obj));
-
-            return jsonObject.toString();
-        }catch(Exception e){
-            logger.error(ExceptionUtil.getStackTrace(e));
-            return ApiMessageCode.FAIL;
-        }
-    }
 
 	@RequestMapping(value = "/document/word/syllable" , method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
 	public String documentWordSyllable(@RequestBody String jsonValue){
