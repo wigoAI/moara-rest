@@ -12,7 +12,7 @@ public class ApiWordTest {
 	public static void main(String [] args){
 		try{
 		URL url = new URL("http://52.231.76.143:33480/word/extract");			
-		HttpURLConnection conn = null;
+		HttpURLConnection conn;
         conn = (HttpURLConnection) url.openConnection(); 
         conn.setUseCaches(false);
 		conn.setRequestMethod("POST");
@@ -64,9 +64,9 @@ public class ApiWordTest {
 		
 		  String charSet = "UTF-8";
 	        StringBuilder message = new StringBuilder(); 
-	   		BufferedReader br= null;
+	   		BufferedReader br;
 	   		
-	   		if (conn != null && conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+	   		if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
 	   					
 	   			br = new BufferedReader(
 	   					new InputStreamReader(conn.getInputStream(), charSet));
@@ -74,7 +74,7 @@ public class ApiWordTest {
 	   			for (;;) {
 	   				String line = br.readLine();
 	   				if (line == null) break;
-	   				message.append(line + '\n'); 
+	   				message.append(line).append('\n');
 	   			}
 	   			
 	   		}

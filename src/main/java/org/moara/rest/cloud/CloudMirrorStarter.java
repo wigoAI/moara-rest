@@ -1,4 +1,18 @@
-
+/*
+ * Copyright (C) 2020 Wigo Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.moara.rest.cloud;
 
 import org.moara.Moara;
@@ -25,18 +39,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 /**
- * <pre>
- *  파 일 명 : CloudMirrorStarter.java
- *  설    명 : 클라우드 미러용 스타트
- *  작 성 자 : macle(김용수)
- *  작 성 일 : 2018.07
- *  버    전 : 1.0
- *  수정이력 :
- *  기타사항 :
- * </pre>
- * @author Copyrights 2018 by ㈜모아라. All right reserved.
+ * cloud 환경에서 사용되는 api
+ * @author macle
  */
-@SpringBootApplication(scanBasePackages = {"org.moara"})
+@SpringBootApplication(scanBasePackages = {"org.moara", "com.wigoai"})
 public class CloudMirrorStarter {
 	private static final Logger logger = LoggerFactory.getLogger(CloudMirrorStarter.class); 
 	
@@ -84,87 +90,81 @@ public class CloudMirrorStarter {
 			}
 
 
-			//noinspection AnonymousHasLambdaAlternative
-			new Thread(){
-				@Override
-				public void run(){
-					try{
-						
-						Collection<URL> collections = ClasspathHelper.forJavaClassPath();
-						
-						List<URL> urlList = new ArrayList<>();
-						for(URL url : collections){
-							
-							String path = url.getPath();
-							try{
-								File file = new File(path);
-								if(file.isDirectory()){
-									urlList.add(url);
-								}else if(file.getName().contains("moara")){
-									urlList.add(url);
-								}
-							}catch(Exception e){logger.error(ExceptionUtil.getStackTrace(e));}
-							
-						}
-						
-						Reflections  ref = new Reflections (new ConfigurationBuilder().setUrls(urlList));
-						
-						List<CloudMirrorEngineInitializer> initializerList = new ArrayList<>(); 
-						for (Class<?> cl : ref.getSubTypesOf(CloudMirrorEngineInitializer.class)) {
-							try{
-								//noinspection deprecation
-								CloudMirrorEngineInitializer initializer = (CloudMirrorEngineInitializer)cl.newInstance();
-								initializerList.add(initializer);
-							}catch(Exception e){logger.error(ExceptionUtil.getStackTrace(e));}
-						}
-						
-						if(initializerList.size() == 0){
-							return;
-						}
+			new Thread(() -> {
+				try{
 
+					Collection<URL> collections = ClasspathHelper.forJavaClassPath();
 
-						//noinspection ToArrayCallWithZeroLengthArrayArgument
-						CloudMirrorEngineInitializer [] initializerArray = initializerList.toArray(new CloudMirrorEngineInitializer[initializerList.size()]);
-						
-						int [] numArray = new int[initializerArray.length];
-						
-						for(int i=0 ; i<numArray.length ; i++){
-							
-							int seq = 1000;
-							try{
-								
-								Priority priority =initializerArray[i].getClass().getAnnotation(Priority.class);
-								if(priority != null){
-									seq = priority.seq();
-								}
-								
-								
-								
-							}catch(Exception e){logger.error(ExceptionUtil.getStackTrace(e));}
-							
-							
-							numArray[i] = seq;
-							
-						}
-						
-						
-						QuickSortArray<CloudMirrorEngineInitializer> sort = new QuickSortArray<>(initializerArray);
-						sort.sortAsc(numArray);
-						//noinspection ForLoopReplaceableByForEach
-						for(int i=0 ; i<initializerArray.length ; i++){
-							try{
-								initializerArray[i].init();
-							}catch(Exception e){logger.error(ExceptionUtil.getStackTrace(e));}
-						}
-						
-						
-					}catch(Exception e){
-						logger.error(ExceptionUtil.getStackTrace(e));
+					List<URL> urlList = new ArrayList<>();
+					for(URL url : collections){
+
+						String path = url.getPath();
+						try{
+							File file = new File(path);
+							if(file.isDirectory()){
+								urlList.add(url);
+							}else if(file.getName().contains("moara")){
+								urlList.add(url);
+							}
+						}catch(Exception e){logger.error(ExceptionUtil.getStackTrace(e));}
+
 					}
-					
+
+					Reflections  ref = new Reflections (new ConfigurationBuilder().setUrls(urlList));
+
+					List<CloudMirrorEngineInitializer> initializerList = new ArrayList<>();
+					for (Class<?> cl : ref.getSubTypesOf(CloudMirrorEngineInitializer.class)) {
+						try{
+							CloudMirrorEngineInitializer initializer = (CloudMirrorEngineInitializer)cl.newInstance();
+							initializerList.add(initializer);
+						}catch(Exception e){logger.error(ExceptionUtil.getStackTrace(e));}
+					}
+
+					if(initializerList.size() == 0){
+						return;
+					}
+
+
+					//noinspection ToArrayCallWithZeroLengthArrayArgument
+					CloudMirrorEngineInitializer [] initializerArray = initializerList.toArray(new CloudMirrorEngineInitializer[initializerList.size()]);
+
+					int [] numArray = new int[initializerArray.length];
+
+					for(int i=0 ; i<numArray.length ; i++){
+
+						int seq = 1000;
+						try{
+
+							Priority priority =initializerArray[i].getClass().getAnnotation(Priority.class);
+							if(priority != null){
+								seq = priority.seq();
+							}
+
+
+
+						}catch(Exception e){logger.error(ExceptionUtil.getStackTrace(e));}
+
+
+						numArray[i] = seq;
+
+					}
+
+
+					QuickSortArray<CloudMirrorEngineInitializer> sort = new QuickSortArray<>(initializerArray);
+					sort.sortAsc(numArray);
+					//noinspection ForLoopReplaceableByForEach
+					for(int i=0 ; i<initializerArray.length ; i++){
+						try{
+							initializerArray[i].init();
+						}catch(Exception e){logger.error(ExceptionUtil.getStackTrace(e));}
+					}
+
+
+				}catch(Exception e){
+					logger.error(ExceptionUtil.getStackTrace(e));
 				}
-				
-			}.start();
+
+			}).start();
 			
 		}catch(Exception e){
 			logger.error(ExceptionUtil.getStackTrace(e));

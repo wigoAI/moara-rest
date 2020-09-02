@@ -92,7 +92,8 @@ public class ApiGroupingTest {
 
             System.out.println(param.toString());
 
-            URL url = new URL("http://127.0.0.1:33377/similarity/cluster/grouping");
+//            URL url = new URL("http://127.0.0.1:33377/similarity/cluster/grouping");
+            URL url = new URL("http://moara.org:10035/similarity/cluster/grouping");
             HttpURLConnection conn = null;
             conn = (HttpURLConnection) url.openConnection();
             conn.setUseCaches(false);

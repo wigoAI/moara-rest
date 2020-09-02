@@ -1,13 +1,7 @@
 /**
- * <pre>
- *  설    명 : 패키지 추가인식을 위한 작업
  *
- *  작 성 자 : macle(김용수)
- *  작 성 일 : 2020.03
- *  버    전 : 1.0
- *  수정이력 :
- *  기타사항 :
- * </pre>
- * @author Copyrights 2020 by ㈜WIGO. All right reserved.
+ * 이 패키지는 com.wigoai 도메인의 rest 기능을 제공합니다.
+ * SpringBootApplication annotation scanBasePackages 를 위해 추가하엿습니다.
+ * @author macle
  */
 package com.wigoai.rest;

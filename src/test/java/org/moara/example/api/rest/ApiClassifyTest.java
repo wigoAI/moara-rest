@@ -31,7 +31,7 @@ public class ApiClassifyTest {
 	public static void main(String [] args){
 		try{
 			URL url = new URL("http://52.231.76.143:33480/classify/result");			
-			HttpURLConnection conn = null;
+			HttpURLConnection conn;
 	        conn = (HttpURLConnection) url.openConnection(); 
 	        conn.setUseCaches(false);
 			conn.setRequestMethod("POST");

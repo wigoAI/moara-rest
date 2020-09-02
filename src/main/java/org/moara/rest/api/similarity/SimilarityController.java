@@ -1,13 +1,33 @@
+/*
+ * Copyright (C) 2020 Wigo Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.moara.rest.api.similarity;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.moara.ara.cluster.DocumentSimilarity;
+import org.moara.ara.datamining.textmining.TextMining;
+import org.moara.ara.datamining.textmining.document.Document;
 import org.moara.ara.datamining.textmining.similarity.cluster.grouping.SimilarityDocumentGroup;
 import org.moara.ara.datamining.textmining.similarity.cluster.grouping.SimilarityDocumentGrouping;
+import org.moara.ara.datamining.textmining.similarity.compare.SimilarityDocumentCompare;
+import org.moara.ara.datamining.textmining.similarity.compare.SimilarityDocumentResult;
 import org.moara.ara.datamining.textmining.similarity.document.SimilarityDocument;
+import org.moara.ara.datamining.textmining.similarity.learn.SimilarityLearnType;
 import org.moara.common.callback.ObjectCallback;
+import org.moara.common.code.LangCode;
 import org.moara.common.config.Config;
 import org.moara.common.util.ExceptionUtil;
 import org.slf4j.Logger;
@@ -18,19 +38,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
 /**
- * <pre>
- *  파 일 명 : SimilarityGroupController.java
- *  설    명 :
- *
- *  작 성 자 : macle(김용수)
- *  작 성 일 : 2020.07
- *  버    전 : 1.0
- *  수정이력 :
- *  기타사항 :
- * </pre>
- *
- * @author Copyrights 2020 by ㈜ WIGO. All right reserved.
+ * 유사도 api 정의
+ * @author macle
  */
 @RestController
 public class SimilarityController {
@@ -40,8 +51,13 @@ public class SimilarityController {
 
     private static final long WAIT_TIME = 1000L*60L*20;
 
+    /**
+     * grouping
+     * @param data String json object
+     * @return String json object
+     */
     @RequestMapping(value = "/similarity/cluster/grouping" , method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
-    public String result(@RequestBody String data) {
+    public String grouping(@RequestBody String data) {
 
         JSONObject param = new JSONObject(data);
 
@@ -137,26 +153,68 @@ public class SimilarityController {
 
 
 
-    private class CallbackFlag {
+    private static class CallbackFlag {
         boolean isEnd = false;
 
     }
 
-    public static void main(String[] args) {
+    /**
+     *
+     * @param jsonValue String json object
+     * @return Double
+     */
+    @RequestMapping(value = "/similarity/equals/max" , method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    public Double similarityEqualsMax(@RequestBody String jsonValue) {
+        try {
+            JSONObject obj = new JSONObject(jsonValue);
+            String contents = obj.getString("source");
+            String compare = obj.getString("target");
 
-        String jsonData = "[{\"contents\":\"본문1\",\"id\":\"1\",\"title\":\"제목1\"},{\"contents\":\"본문2\",\"id\":\"2\",\"title\":\"제목2\"},{\"contents\":\"본문3\",\"id\":\"3\",\"title\":\"제목3\"}]";
+            SimilarityDocument similarityDocument = new SimilarityDocument();
+            Document document = new Document();
+            document.setDocType(Document.SNS);
+            document.setLangCode(LangCode.KO);
+            document.setContents(contents);
+            TextMining.mining(document);
+            similarityDocument.setLearnType(SimilarityLearnType.DATA_EQUALS);
+            similarityDocument.learn(document);
+            similarityDocument.setMinPercent(0.2);
 
-        Gson gson = new Gson();
-        JsonArray jsonArray = gson.fromJson(jsonData, JsonArray.class);
-
-        int size = jsonArray.size();
-
-
-        for (int i = 0; i < size ; i++) {
-            System.out.println(jsonArray.get(i).getAsString());
-
+            Document compareDocument = new Document();
+            compareDocument.setDocType(Document.SNS);
+            compareDocument.setLangCode(LangCode.KO);
+            compareDocument.setContents(compare);
+            TextMining.mining(compareDocument);
+            SimilarityDocumentResult result = SimilarityDocumentCompare.compare(similarityDocument, compareDocument);
+            if(result.isResult()){
+                return result.getMaxPercent().getPercent();
+            }else{
+                return 0.0;
+            }
+        }catch(Exception e) {
+            logger.error(ExceptionUtil.getStackTrace(e));
+            return -1.0;
         }
-
     }
+
+    /**
+     *
+     * @param jsonValue String json object
+     * @return Double
+     */
+    @RequestMapping(value = "/similarity/cosine" , method = RequestMethod.POST, produces= MediaType.APPLICATION_JSON_VALUE)
+    public Double similarityCosine(@RequestBody String jsonValue) {
+        try {
+            JSONObject obj = new JSONObject(jsonValue);
+            String contents = obj.getString("source");
+            String compare = obj.getString("target");
+            return DocumentSimilarity.compareDocument(contents, compare);
+        }catch(Exception e) {
+            logger.error(ExceptionUtil.getStackTrace(e));
+            return -1.0;
+        }
+    }
+
+
 
 }
