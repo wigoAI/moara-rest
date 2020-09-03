@@ -35,7 +35,18 @@ public class RestCall {
      * post Json 으로 호출
      * 연결시간 30초
      * @param address String address
-     * @param value String value
+     * @param value String message
+     * @return String result
+     */
+    public static String postJson(String address, String value){
+        return postJson(address, value, 30000);
+    }
+
+    /**
+     * rest 호출후 결과 받기
+     * post Json 으로 호출
+     * @param address String address
+     * @param value String message
      * @param timeOut millisecond
      * @return String result
      */
