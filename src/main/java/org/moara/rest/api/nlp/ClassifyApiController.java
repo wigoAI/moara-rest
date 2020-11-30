@@ -21,7 +21,6 @@ import org.json.JSONObject;
 import org.moara.ara.classification.model.ClassificationModel;
 import org.moara.ara.classification.model.ClassificationModelMetaManager;
 import org.moara.ara.classification.model.SimpleClassificationResults;
-import org.moara.ara.datamining.data.CodeName;
 import org.moara.ara.datamining.textmining.TextMining;
 import org.moara.ara.datamining.textmining.api.classify.ClassifyDefaultApi;
 import org.moara.ara.datamining.textmining.api.document.JsonDocument;
@@ -75,7 +74,7 @@ public class ClassifyApiController {
 			Document document = JsonDocument.makeDocument(documentJson);
 			TextMining.mining(document);
 
-			String rootCode = Config.getConfig("emotion.positive.code", "U716");
+			String rootCode = Config.getConfig("emotion.root.code", "U716");
 			Collection<ClassificationModel<?>> classificationModels = ClassificationModelMetaManager.getInstance().getClassificationModels();
 			for (ClassificationModel<?> model : classificationModels) {
 				if (!model.autoClassification()) continue;
