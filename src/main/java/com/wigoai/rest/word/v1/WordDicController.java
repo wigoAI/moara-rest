@@ -22,7 +22,6 @@ import org.moara.ara.datamining.textmining.dictionary.word.element.WordClass;
 import org.moara.ara.datamining.textmining.dictionary.word.element.WordClassDetail;
 import org.moara.ara.datamining.textmining.dictionary.word.management.NewWord;
 import org.moara.common.data.database.jdbc.JDBCUtil;
-import org.moara.common.network.socket.HostAddrPort;
 import org.moara.common.util.ExceptionUtil;
 import org.moara.engine.EngineApiRequests;
 import org.slf4j.Logger;
