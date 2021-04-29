@@ -22,6 +22,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+
 /**
  * rest util
  * @author macle
@@ -29,6 +31,55 @@ import java.net.URL;
 @SuppressWarnings("unused")
 public class RestCall {
 
+
+
+    public static String getText(String address, String text){
+
+
+        try {
+            String charSet = "UTF-8";
+
+            String encodeText = URLEncoder.encode(text, charSet);
+
+
+            URL url = new URL(address +"/" + encodeText);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setUseCaches(false);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
+            conn.setInstanceFollowRedirects(false);
+//            conn.setRequestProperty("Content-Type", "application/json");
+//            conn.setRequestProperty("Accept", "application/json");
+
+            conn.setConnectTimeout(30000);
+            conn.setReadTimeout(30000);
+            conn.setUseCaches(false);
+            StringBuilder message = new StringBuilder();
+            BufferedReader br;
+
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+                br = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), charSet));
+
+                for (;;) {
+                    String line = br.readLine();
+                    if (line == null) break;
+                    message.append('\n').append(line);
+                }
+                br.close();
+
+            }else{
+                throw new RuntimeException("http response fail: " + conn.getResponseCode());
+            }
+
+            return message.substring(1);
+        }catch(Exception e){
+            throw new RuntimeException(ExceptionUtil.getStackTrace(e));
+        }
+
+    }
 
     /**
      * rest 호출후 결과 받기
@@ -96,6 +147,10 @@ public class RestCall {
         }catch(Exception e){
             throw new RuntimeException(ExceptionUtil.getStackTrace(e));
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getText("http://10.10.1.121:8000/similar", "안녕"));
     }
 
 }
