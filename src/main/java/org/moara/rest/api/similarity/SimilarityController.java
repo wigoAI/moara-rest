@@ -69,14 +69,14 @@ public class SimilarityController {
             SimilarityDocumentGrouping similarityDocumentGrouping = new SimilarityDocumentGrouping();
 
             if(param.has("min_percent")) {
-                similarityDocumentGrouping.setMinPercent(param.getDouble("min_percent"));
+                similarityDocumentGrouping.setMinRate(param.getDouble("min_percent"));
             }else{
-                similarityDocumentGrouping.setMinPercent(0.5);
+                similarityDocumentGrouping.setMinRate(0.5);
             }
             if(param.has("group_min_percent")) {
-                similarityDocumentGrouping.setGroupMinPercent(param.getDouble("group_min_percent"));
+                similarityDocumentGrouping.setMinGroupRelationRate(param.getDouble("group_min_percent"));
             }else{
-                similarityDocumentGrouping.setGroupMinPercent(0.30);
+                similarityDocumentGrouping.setMinGroupRelationRate(0.30);
             }
 
             if(param.has("thread_count")) {
